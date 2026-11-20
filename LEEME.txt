@@ -1,0 +1,62 @@
+KR / PAGINAS Y SOLUCIONES PARA NEGOCIOS
+=====================================
+
+ABRIR LA VERSION ACTUAL
+Abre inicio.html. Es el acceso directo a la nueva presentación de KR.
+index.html contiene la misma página para conservar los accesos anteriores.
+No hace falta instalar paquetes ni crear cuentas.
+
+La página no contiene fotografías, retratos, enlaces a perfiles ni proyectos
+de programación. El equipo se presenta únicamente por sus nombres:
+Joselin y Jordi Daniel Reyes Hernandez.
+
+La presentación habla de necesidades de negocio, con lenguaje sencillo:
+mostrar servicios, vender productos, organizar inventario, revisar caja y
+administrar citas. No se muestran tarifas fijas de los servicios de KR.
+
+QUE PUEDES HACER EN LA LANDING
+- Elegir qué te gustaría mejorar y abrir un ejemplo relacionado.
+- Consultar los servicios y filtrar los ejemplos por tipo de negocio.
+- Conocer al equipo, el proceso de trabajo y respuestas a dudas frecuentes.
+- Preparar un mensaje de WhatsApp o contactar por llamada y correo.
+
+EJEMPLOS EN PAGINAS COMPLETAS
+examples/ferreteria.html: Ferre Norte, control de productos, entradas/salidas,
+bitácora, reposición y archivos para Excel.
+examples/moda.html: Forma, tienda de ropa con tallas, colores, bolsa de compra
+y pedido simulado. Los importes de los productos son ficticios.
+examples/caja.html: Café Miga, conteo de efectivo y reporte de cierre.
+examples/agenda.html: Estudio Oliva, servicios, horarios y reservas de prueba.
+
+Estos negocios son ficticios; no se presentan como clientes. No se realizan
+compras, envíos, cobros ni reservas reales. Los cambios sólo se guardan en el
+navegador donde se prueban. Cada ejemplo permite restablecer sus datos.
+
+CONTACTO
+Teléfono: 9618578982
+WhatsApp: +52 9618578982
+Correo: kato2601@outlook.com
+El formulario prepara el mensaje. La persona lo revisa y decide enviarlo.
+
+ARCHIVOS PRINCIPALES
+inicio.html / index.html: contenido de la landing.
+kr-estudio.css: diseño y adaptación a celular, tablet y computadora.
+kr-estudio.js: menú, recomendaciones, filtros y contacto.
+examples/: páginas completas de los cuatro negocios ficticios.
+assets/: fuentes y símbolo KR. No contiene fotografías.
+
+REFERENCIAS DE DISENO REVISADAS
+https://clay.global/ — Jerarquía tipográfica y navegación breve.
+https://www.instrument.com/ — Presentación amplia de ejemplos y orden visual.
+https://www.ramotion.com/ — Explicación de servicios y contacto accesible.
+Se tomaron como referencias de composición; el texto y la identidad de KR
+se desarrollaron para este negocio. No se copiaron fotografías, clientes,
+testimonios, logotipos ni métricas de estos estudios.
+
+SERVIDOR LOCAL OPCIONAL
+python -m http.server 5500 --bind 127.0.0.1
+Después abre http://127.0.0.1:5500/inicio.html
+
+Para publicar en un alojamiento estático, sube el contenido de la carpeta.
+La entrega actual se guarda localmente, con fuentes y dibujos propios
+incluidos. Las tipografías mantienen sus licencias dentro de assets/.
