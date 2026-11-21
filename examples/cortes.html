@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Café Miga · Corte de caja por turnos</title>
   <link rel="icon" href="../assets/favicon.svg">
-  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="base.css?v=7">
   <link rel="stylesheet" href="comercios.css">
-  <link rel="stylesheet" href="flujos.css">
+  <link rel="stylesheet" href="flujos.css?v=2">
   <script defer src="shared.js"></script>
   <script defer src="cortes.js"></script>
 </head>
@@ -19,9 +19,9 @@
       <p class="shop-label">CAFÉ MIGA / CONTROL DE CAJA</p>
       <h1>Cierra cada turno con cuentas claras</h1>
       <p>Separa las ventas en efectivo, tarjeta y transferencia. Compara el efectivo del cajón con lo que debería haber y guarda el resultado de cada turno.</p>
-      <a class="shop-link underlined" href="caja.html">Prefiero contar billetes y monedas</a>
+      <nav class="flow-switch" aria-label="Secciones del corte"><a class="secondary" href="#escenarios">Cargar un turno</a><a class="secondary" href="#cut-form">Datos del turno</a><a class="secondary" href="#cortes-guardados">Cortes guardados</a><a class="secondary" href="caja.html">Contar efectivo</a></nav>
     </header>
-    <section aria-labelledby="scenarios-title" class="flow-presets">
+    <section id="escenarios" aria-labelledby="scenarios-title" class="flow-presets">
       <h2 id="scenarios-title">Carga un ejemplo para empezar</h2>
       <div class="flow-actions">
         <button class="secondary" type="button" data-scenario="balanced">Turno de mañana · Cuadra</button>
@@ -52,12 +52,12 @@
         <p class="hint">El dinero al abrir y las ventas en efectivo se suman. Las salidas se restan. Los pagos con tarjeta o transferencia no entran al cajón.</p>
       </div>
     </div>
-    <section class="saved-cuts" aria-labelledby="saved-title">
+    <section class="saved-cuts" id="cortes-guardados" aria-labelledby="saved-title">
       <div class="board-heading"><div><h2 id="saved-title">Cortes guardados</h2><p>Compara turnos y descarga el resumen. Los ejemplos quedan en este navegador.</p></div><button class="secondary" type="button" id="export-cuts" disabled>Descargar cortes</button></div>
       <div id="saved-cuts"></div>
     </section>
   </main>
-  <footer class="example-footer"><p>Demostración de KR. Importes ficticios.</p><a href="../inicio.html#cotizar">Quiero una herramienta de caja</a></footer>
+  <footer class="example-footer"><p>Demostración de KR. Importes ficticios.</p><a class="secondary" href="../inicio.html#cotizar">Quiero una herramienta de caja</a></footer>
   <dialog id="app-dialog" aria-label="Acciones del corte"></dialog><div id="toast" class="toast" role="status"></div>
 </body>
 </html>

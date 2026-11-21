@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Casa Laurel · Pedidos de mesa y comandas</title>
+  <link rel="icon" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="base.css?v=7">
+  <link rel="stylesheet" href="comercios.css">
+  <link rel="stylesheet" href="flujos.css?v=2">
+  <script defer src="shared.js"></script>
+  <script defer src="restaurante.js"></script>
+</head>
+<body class="laurel">
+  <a class="skip-demo" href="#contenido">Ir al contenido</a>
+  <div class="preview-strip"><a href="../inicio.html#en-accion"><strong>KR</strong> Volver a los ejemplos</a><span>Restaurante de muestra</span></div>
+  <main class="demo-wrap flow-page" id="contenido">
+    <header class="flow-header laurel-header">
+      <p class="shop-label">CASA LAUREL · COCINA DE BARRIO</p>
+      <h1>De la mesa a cocina.</h1>
+      <p>Pide desde la mesa o como mesero y sigue la comanda hasta que esté lista.</p>
+      <nav class="flow-switch" aria-label="Vistas de Casa Laurel">
+        <a class="secondary" data-view="mesa" href="#mesa">Mesa</a>
+        <a class="secondary" data-view="meseros" href="#meseros">Meseros<span id="waiter-count"></span></a>
+        <a class="secondary" data-view="cocina" href="#cocina">Cocina<span id="kitchen-count"></span></a>
+      </nav>
+    </header>
+    <div id="order-station">
+      <section class="flow-board" id="menu-de-mesa" aria-labelledby="station-title">
+        <div>
+          <h2 id="station-title" tabindex="-1">Menú de la mesa</h2>
+          <div class="menu-order" id="laurel-menu"></div>
+        </div>
+        <form class="flow-panel" id="table-form">
+          <h2 id="table-form-title">Tu pedido</h2>
+          <label class="field">Mesa<select name="table" id="table-number"><option>01</option><option>02</option><option>03</option><option selected>04</option><option>05</option><option>06</option></select></label>
+          <div id="table-basket" aria-live="polite" aria-atomic="true"></div>
+          <label class="field">Indicaciones para cocina <span class="hint">Opcional. Por ejemplo, sin cebolla.</span><textarea name="note" rows="2" maxlength="160"></textarea></label>
+          <label class="field" id="staff-field" hidden>Mesero<select name="staff"><option value="">Sin asignar</option><option>Ana</option><option>Leo</option></select></label>
+          <button class="primary" id="send-table-order" type="submit" disabled>Enviar a meseros</button>
+          <div class="inline-result" id="table-result" role="status" hidden></div>
+          <a class="secondary" id="station-next" href="#meseros">Ver pedidos de meseros</a>
+        </form>
+      </section>
+      <section class="saved-cuts" id="table-tracking" aria-labelledby="tracking-title">
+        <h2 id="tracking-title">Pedidos de tu mesa</h2>
+        <div class="order-list" id="table-orders"></div>
+      </section>
+    </div>
+    <section id="waiter-station" aria-labelledby="waiter-title" hidden>
+      <div class="board-heading">
+        <div><h2 id="waiter-title" tabindex="-1">Pedidos de meseros</h2><p>Recibe los pedidos de mesa, envíalos a cocina y marca como servido cuando los lleves.</p></div>
+        <div class="flow-actions"><a class="primary" href="#tomar-pedido">Tomar pedido</a><a class="secondary" href="#cocina">Ver cocina</a></div>
+      </div>
+      <p id="waiter-status" class="hint" role="status"></p>
+      <div class="order-list" id="waiter-orders"></div>
+    </section>
+    <section id="kitchen-station" aria-labelledby="kitchen-title" hidden>
+      <div class="board-heading">
+        <div><h2 id="kitchen-title" tabindex="-1">Comandas de cocina</h2><p>Prepara las órdenes recibidas. Al marcar una lista, el aviso aparece en la vista de meseros.</p></div>
+        <div class="flow-actions"><a class="secondary" href="#meseros">Ver meseros</a></div>
+      </div>
+      <p id="kitchen-status" class="hint" role="status"></p>
+      <div class="order-list" id="kitchen-orders"></div>
+    </section>
+    <noscript><p>Activa JavaScript para enviar y recibir pedidos de prueba.</p></noscript>
+  </main>
+  <footer class="example-footer"><p>Demostración de KR. Las vistas comparten los pedidos de prueba dentro del mismo navegador.</p><a class="secondary" href="../inicio.html#cotizar">Quiero comandas para mi negocio</a></footer>
+  <dialog id="app-dialog" aria-label="Casa Laurel"></dialog><div id="toast" class="toast" role="status"></div>
+</body>
+</html>

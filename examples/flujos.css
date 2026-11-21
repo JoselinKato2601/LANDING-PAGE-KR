@@ -22,6 +22,35 @@
 .ticket-lines b,.ticket-total strong { white-space:nowrap; }
 .ticket-total strong { color:var(--accent); font-size:1.15rem; }
 .flow-result { grid-column:1/-1; }
+.flow-choices { display:flex; flex-wrap:wrap; gap:7px; padding:0; margin:0; border:0; min-inline-size:0; }
+.flow-choices legend,.order-send h3 { font-size:.95rem; letter-spacing:-.015em; font-weight:800; margin-bottom:8px; }
+.flow-choices label { display:inline-flex; align-items:center; min-height:44px; position:relative; padding:7px 12px; border:1px solid var(--line); border-radius:7px; font-size:.875rem; cursor:pointer; }
+.flow-choices label:hover { background:var(--band); }
+.flow-choices label:has(input:checked) { border-color:var(--accent); background:var(--soft); box-shadow:inset 0 -2px 0 var(--accent); }
+.flow-choices label:has(input:focus-visible) { outline:2px solid var(--accent); outline-offset:3px; }
+.order-send { display:grid; gap:9px; border-top:1px solid var(--line); padding-top:13px; }
+.order-send h3 { margin:0; }
+.flow-result .secondary { margin-top:7px; }
+.order-fulfillment { padding:7px 11px; border-radius:5px; background:var(--band); overflow-wrap:anywhere; }
+.order-fulfillment span { display:block; }
+.laurel {
+  --ink:#2e3d32;
+  --muted:#4c6052;
+  --bg:#faf8f0;
+  --surface:#fffcf6;
+  --accent:#3d654e;
+  --on-accent:#fff;
+  --line:#d3dccd;
+  --soft:#dce9dd;
+  --band:#edf1e7;
+}
+.laurel-header { padding:clamp(20px,4vw,42px); border:1px solid var(--line); border-radius:12px; background:linear-gradient(115deg,#eef2e6 58%,#eee7d7); }
+.laurel-header h1 { max-width:none; }
+.laurel .board-heading h2 { margin-bottom:8px; }
+.laurel .station-action { justify-self:start; }
+.kitchen-note { overflow-wrap:anywhere; padding:8px 10px; background:#f5ecd8; border-radius:5px; }
+.kitchen-note strong { display:block; }
+.laurel h2[tabindex],#business-title,#client-title,.flow-page section[id],#order-form { scroll-margin-top:20px; }
 .underlined { text-decoration:underline; text-underline-offset:4px; }
 .board-heading,.order-top { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:end; gap:12px 20px; margin-bottom:14px; }
 .board-heading .field { min-width:min(100%,220px); }
@@ -43,6 +72,9 @@
   .flow-page { padding-block:28px 44px; }
   .flow-board,.order-list,.saved-list { grid-template-columns:1fr; }
   .flow-switch > *, .flow-actions > * { flex:1 1 160px; min-height:46px; }
+  .flow-choices label { flex:1 1 auto; justify-content:center; }
+  .laurel .flow-switch { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+  .laurel .flow-switch a { padding-inline:6px; gap:4px; text-align:center; }
   .flow-panel,.menu-row { padding:16px; }
   .cash-fields { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .cash-fields label { font-size:.85rem; }

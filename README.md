@@ -1,6 +1,6 @@
 # LANDING PAGE KR
 
-Página de presentación de **KR**, el equipo de Joselin y Jordi Daniel Reyes Hernandez. Presenta servicios para negocios con lenguaje sencillo, contacto directo y ocho ejemplos interactivos en páginas independientes.
+Página de presentación de **KR**, el equipo de Joselin y Jordi Daniel Reyes Hernandez. Presenta servicios para negocios con lenguaje sencillo, contacto directo y nueve ejemplos interactivos en páginas independientes.
 
 ## Abrir el sitio
 
@@ -16,7 +16,8 @@ Después abre `http://127.0.0.1:5500/inicio.html`.
 
 ## Ejemplos incluidos
 
-- **Café Miga Pedidos:** menú, formas de pago de muestra, vista de negocio y recibos para compartir.
+- **Café Miga Pedidos:** tienda de comida para recoger, pedir a domicilio o comer en el local, con pago simulado, borrador de WhatsApp y vista del negocio.
+- **Casa Laurel:** pedidos desde la mesa y entre meseros y cocina, con seguimiento de cada comanda.
 - **Cortes por turnos:** efectivo esperado, faltantes o sobrantes e historial descargable.
 
 - **Café Miga Sucursales:** página de cafetería con horarios, menú, filtros y pedido para recoger de muestra.
@@ -34,9 +35,9 @@ Los negocios, productos e importes son ficticios. Las demostraciones conservan s
 ```text
 inicio.html / index.html   Presentación de KR
 kr-estudio.css            Diseño adaptable
-kr-estudio.js             Menú, recomendaciones, filtros y contacto
+kr-estudio.js             Menú, filtros y contacto
 examples/                 Páginas completas de los negocios
-assets/                   Tipografías locales, licencias y símbolo KR
+assets/                   Tipografías locales, licencias, dibujo de portada y símbolo KR
 LEEME.txt                 Instrucciones y detalles del proyecto
 ```
 

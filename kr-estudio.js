@@ -8,32 +8,6 @@
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&navigation.classList.contains('is-open')){closeMenu();menuButton.focus();}});
   matchMedia('(min-width:901px)').addEventListener('change',event=>{if(event.matches)closeMenu();});
 
-  const goals={
-    branches: {
-      title:'Una página para tus sucursales.',
-      copy:'Ayuda a tus clientes a elegir qué local visitar, consultar su horario o preparar un pedido.',
-      link:'examples/sucursales.html',
-      label:'Ver página de sucursales',
-      interest:'Dar a conocer mis sucursales'
-    },
-    store:{title:'Una tienda en línea.',copy:'Tus clientes pueden conocer tus productos, elegir lo que les gusta y preparar su compra.',link:'examples/moda.html',label:'Ver tienda de ejemplo',interest:'Vender mis productos'},
-    inventory:{title:'Un inventario en orden.',copy:'Consulta qué productos tienes, registra lo que entra o sale y detecta qué hace falta reponer.',link:'examples/ferreteria.html',label:'Ver inventario de ejemplo',interest:'Organizar mi inventario'},
-    cash:{title:'Un cierre de caja más claro.',copy:'Cuenta billetes y monedas, revisa cuánto debería haber y guarda el resultado del día.',link:'examples/caja.html',label:'Ver cierre de caja de ejemplo',interest:'Llevar mejor mis cuentas'},
-    booking:{title:'Una agenda para tus clientes.',copy:'Muestra tus servicios y horarios disponibles para que reservar una cita sea más sencillo.',link:'examples/agenda.html',label:'Ver agenda de ejemplo',interest:'Administrar mis citas'}
-  };
-  function updateGoal(input,interactive=true){
-    const goal=goals[input.value];if(!goal)return;
-    document.getElementById('recommendation-title').textContent=goal.title;
-    document.getElementById('recommendation-copy').textContent=goal.copy;
-    document.getElementById('recommendation-link').href=goal.link;
-    document.getElementById('recommendation-label').textContent=goal.label;
-    if(interactive){
-      document.getElementById('contact-service').value=goal.interest;
-      const panel=document.querySelector('.recommendation');panel.classList.remove('changed');void panel.offsetWidth;panel.classList.add('changed');
-    }
-  }
-  document.querySelectorAll('[name="business-goal"]').forEach(input=>input.addEventListener('change',()=>updateGoal(input)));
-  window.addEventListener('pageshow',()=>{const selected=document.querySelector('[name="business-goal"]:checked');if(selected)updateGoal(selected,false);});
   document.querySelectorAll('[data-interest]').forEach(link => link.addEventListener('click',() => {
     const field = document.getElementById('contact-service');
     field.value = link.dataset.interest;

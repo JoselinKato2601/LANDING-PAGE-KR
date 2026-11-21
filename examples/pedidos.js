@@ -8,14 +8,19 @@
     {id:'sandwich', name:'Sándwich de la casa', note:'Pan tostado, queso y verduras', cents:9500}
   ];
   const payments = {
-    card:{name:'Tarjeta en el sitio', status:'Pago simulado en la web', help:'Aquí verás cómo quedaría el pedido pagado en línea. No se solicitan datos de tarjeta.'},
-    transfer:{name:'Transferencia', status:'Por confirmar con el negocio', help:'El comercio puede compartir sus datos de pago y confirmar la transferencia.'},
-    pickup:{name:'Pago al recoger', status:'Pendiente de pago al recoger', help:'El cliente paga directamente en el mostrador.'}
+    card:{name:'Tarjeta en la página', status:'Pago simulado en la página', help:'Al enviar al negocio se simula el pago. La prueba no pide datos de tarjeta.'},
+    whatsapp:{name:'Pago acordado por WhatsApp', status:'Pago por acordar por WhatsApp', help:'El negocio puede confirmar el importe y compartir por WhatsApp la forma de pago que prefiera.'},
+    transfer:{name:'Transferencia', status:'Transferencia por confirmar', help:'El negocio puede confirmar la transferencia al revisar el pedido.'}
+  };
+  const fulfillment = {
+    pickup:{name:'Para recoger', branch:'Recoger en', direct:'Pagar al recoger', ready:'Listo para recoger', delivered:'Entregado'},
+    delivery:{name:'A domicilio', branch:'Preparado en', direct:'Pagar al recibir', ready:'Listo para reparto', delivered:'Entregado'},
+    dine:{name:'Comer aquí', branch:'Comer en', direct:'Pagar en el local', ready:'Listo para servir', delivered:'Servido'}
   };
   const stages = [
     {id:'received', label:'Recibido', action:'Empezar preparación'},
     {id:'preparing', label:'En preparación', action:'Marcar listo'},
-    {id:'ready', label:'Listo para recoger', action:'Marcar entregado'},
+    {id:'ready', label:'Listo', action:'Marcar entregado'},
     {id:'delivered', label:'Entregado'}
   ];
   const date = new Intl.DateTimeFormat('es-MX',{dateStyle:'short',timeStyle:'short'});
@@ -26,15 +31,37 @@
   const list = document.getElementById('order-list');
   const result = document.getElementById('order-result');
   const filter = document.getElementById('order-filter');
+  const fulfillmentFilter = document.getElementById('fulfillment-filter');
+  const submit = document.getElementById('confirm-order');
+  const whatsappButton = document.getElementById('whatsapp-order');
   const whatsapp = text => 'https://wa.me/?text=' + encodeURIComponent(text);
-  const paymentStatus = order => order.paid ? 'Pago directo registrado en la demostración' : payments[order.payment].status;
+  let submitting = false;
+  const mode = order => fulfillment[order.fulfillment] || fulfillment.pickup;
+  const paymentName = order => payments[order.payment]?.name || mode(order).direct;
+  const paymentStatus = order => order.paid ? 'Pago registrado en la demostración' : payments[order.payment]?.status || 'Pendiente de pago directo';
+
+  function deliveryText(order) {
+    if (order.fulfillment === 'delivery') return `Dirección: ${order.address}`;
+    if (order.fulfillment === 'dine') return order.table ? `Mesa ${order.table}` : 'Mesa por elegir al llegar';
+    return '';
+  }
+
+  function stageLabel(order) {
+    if (order.stage === 'ready' || order.stage === 'delivered') return mode(order)[order.stage];
+    return stages.find(stage => stage.id === order.stage).label;
+  }
 
   function readOrders() {
     const data = KR.load(storageKey,null);
     if (Array.isArray(data)) orders = data;
   }
-  function saveOrders() {
-    KR.save(storageKey,orders);
+  async function changeOrders(update) {
+    const apply = () => {
+      readOrders();
+      if (update()) KR.save(storageKey,orders);
+    };
+    if (navigator.locks) await navigator.locks.request(storageKey,apply).catch(apply);
+    else apply();
     renderOrders();
   }
   function lines() {
@@ -43,10 +70,30 @@
   const sum = items => items.reduce((total,item) => total + item.quantity * item.cents,0);
   const lineText = item => `${item.quantity} × ${item.name} · ${KR.money(item.quantity * item.cents)}`;
   function orderText(title, order) {
-    return [`Café Miga · ${title} de muestra`,order.id ? `Folio: ${order.id}` : '',`Recoger en: ${order.branch}`,
-      ...order.items.map(lineText),`Total: ${KR.money(sum(order.items))}`,`Forma de pago: ${payments[order.payment].name}`,
-      order.stage ? `Estado: ${stages.find(stage => stage.id === order.stage).label} · ${paymentStatus(order)}` : '',
+    return [`Café Miga · ${title} de muestra`,order.id ? `Folio: ${order.id}` : '',`Entrega: ${mode(order).name}`,`${mode(order).branch}: ${order.branch}`,deliveryText(order),
+      ...order.items.map(lineText),`Total: ${KR.money(sum(order.items))}`,`Forma de pago: ${paymentName(order)}`,
+      order.stage ? `Estado: ${stageLabel(order)} · ${paymentStatus(order)}` : '',
       'Demostración, sin cobro real.'].filter(Boolean).join('\n');
+  }
+
+  function orderDetails() {
+    const fields = form.elements;
+    const choice = fields.fulfillment.value;
+    return {fulfillment:choice, branch:fields.branch.value, payment:fields.payment.value,
+      address:choice === 'delivery' ? fields.address.value.trim() : '', table:choice === 'dine' ? fields.table.value : ''};
+  }
+
+  function renderCheckout() {
+    const order = orderDetails();
+    const delivery = order.fulfillment === 'delivery';
+    document.getElementById('branch-label').textContent = mode(order).branch;
+    document.getElementById('address-field').hidden = !delivery;
+    document.getElementById('dine-field').hidden = order.fulfillment !== 'dine';
+    form.elements.address.required = delivery;
+    form.elements.address.disabled = !delivery;
+    form.elements.table.disabled = order.fulfillment !== 'dine';
+    form.elements.payment.querySelector('[value="pickup"]').textContent = mode(order).direct;
+    document.getElementById('payment-help').textContent = payments[order.payment]?.help || 'El cliente paga directamente al negocio.';
   }
 
   function renderBasket() {
@@ -61,34 +108,34 @@
       row.querySelector('[data-delta="-1"]').disabled = qty < 1;
       row.querySelector('[data-delta="1"]').disabled = qty >= 20;
     }
-    const link = document.getElementById('whatsapp-order');
-    link.hidden = !items.length;
-    if (items.length) link.href = whatsapp(orderText('Pedido',{items,branch:form.elements.branch.value,payment:form.elements.payment.value}));
-    else link.removeAttribute('href');
-    document.getElementById('confirm-order').disabled = !items.length;
-    document.getElementById('payment-help').textContent = payments[form.elements.payment.value].help;
+    submit.disabled = whatsappButton.disabled = !items.length || submitting;
   }
 
   function renderOrders() {
-    const visible = orders.filter(order => !filter.value || order.stage === filter.value);
+    const visible = orders.filter(order => (!filter.value || order.stage === filter.value) &&
+      (!fulfillmentFilter.value || (order.fulfillment || 'pickup') === fulfillmentFilter.value));
     document.getElementById('order-count').textContent = orders.length ? `(${orders.length})` : '';
     document.getElementById('board-status').textContent = visible.length === 1 ? '1 pedido visible' : `${visible.length} pedidos visibles`;
     list.innerHTML = visible.length ? visible.map(order => {
       const stage = stages.find(item => item.id === order.stage);
       return `<article class="flow-panel order-card" id="pedido-${order.id}">
-        <div class="order-top"><div><h3>Pedido ${order.id}</h3><p>${KR.esc(order.branch)} · ${date.format(new Date(order.created))}</p></div><span class="pill ${order.stage === 'delivered' ? 'good' : 'warn'}">${stage.label}</span></div>
+        <div class="order-top"><div><h3>Pedido ${order.id}</h3><p>${KR.esc(order.branch)} · ${date.format(new Date(order.created))}</p></div><span class="pill ${['ready','delivered'].includes(order.stage) ? 'good' : 'warn'}">${stageLabel(order)}</span></div>
+        <p class="order-fulfillment"><strong>${mode(order).name}</strong>${deliveryText(order) ? ` <span>${KR.esc(deliveryText(order))}</span>` : ''}</p>
         <ul class="ticket-lines">${order.items.map(item => `<li><span>${item.quantity} × ${KR.esc(item.name)}</span><b>${KR.money(item.quantity * item.cents)}</b></li>`).join('')}</ul>
-        <div class="ticket-total"><span>${payments[order.payment].name}</span><strong>${KR.money(sum(order.items))}</strong></div>
+        <div class="ticket-total"><span>${paymentName(order)}</span><strong>${KR.money(sum(order.items))}</strong></div>
         <p class="hint">${paymentStatus(order)}</p>
-        <div class="flow-actions">${stage.action ? `<button type="button" class="primary" data-next="${order.id}">${stage.action}</button>` : ''}
+        <div class="flow-actions">${stage.action ? `<button type="button" class="primary" data-next="${order.id}" data-stage="${order.stage}">${order.stage === 'ready' && order.fulfillment === 'dine' ? 'Marcar servido' : stage.action}</button>` : ''}
           ${order.payment !== 'card' && !order.paid ? `<button type="button" class="secondary" data-paid="${order.id}">Registrar pago de prueba</button>` : ''}
           <button type="button" class="secondary" data-receipt="${order.id}">Ver recibo de muestra</button></div>
       </article>`;
-    }).join('') : '<div class="flow-panel"><p>Aún no hay pedidos para mostrar. Haz uno de prueba desde la vista de cliente.</p></div>';
+    }).join('') : '<div class="flow-panel"><p>No hay pedidos para mostrar.</p><a class="secondary" href="#cliente">Ir al menú</a></div>';
   }
 
-  function renderView() {
+  let currentBusinessView;
+  function renderView(focus = false) {
     const isBusiness = location.hash === '#negocio';
+    const changedView = currentBusinessView !== isBusiness;
+    currentBusinessView = isBusiness;
     document.getElementById('cliente').hidden = isBusiness;
     document.getElementById('negocio').hidden = !isBusiness;
     for (const link of document.querySelectorAll('[data-view]')) {
@@ -96,12 +143,13 @@
       else link.removeAttribute('aria-current');
     }
     if (isBusiness) { readOrders(); renderOrders(); }
+    if (focus && changedView) document.getElementById(isBusiness ? 'business-title' : 'client-title').focus();
   }
 
   document.getElementById('product-list').innerHTML = menu.map(item => `<article class="menu-row" data-product="${item.id}"><div><h3>${item.name}</h3><p>${item.note}</p><strong>${KR.money(item.cents)}</strong></div><div class="stepper"><button type="button" data-delta="-1" aria-label="Quitar ${item.name}">−</button><output aria-label="Cantidad de ${item.name}">0</output><button type="button" data-delta="1" aria-label="Agregar ${item.name}">+</button></div></article>`).join('');
   document.getElementById('product-list').addEventListener('click',event => {
     const button = event.target.closest('[data-delta]');
-    if (!button) return;
+    if (!button || submitting) return;
     const id = button.closest('[data-product]').dataset.product;
     const qty = (quantities.get(id) || 0) + Number(button.dataset.delta);
     if (qty > 0) quantities.set(id,qty);
@@ -110,41 +158,66 @@
     renderBasket();
     if (button.disabled) button.parentElement.querySelector('button:not(:disabled)')?.focus({preventScroll:true});
   });
-  form.addEventListener('change',renderBasket);
-  form.addEventListener('submit',event => {
+  form.addEventListener('change',renderCheckout);
+  form.elements.address.addEventListener('input', () => {
+    const field = form.elements.address;
+    field.setCustomValidity(field.value && !field.value.trim() ? 'Escribe una dirección de ejemplo.' : '');
+  });
+  form.addEventListener('submit',async event => {
     event.preventDefault();
     const items = lines();
-    if (!items.length) return;
-    readOrders();
-    const id = 'M-' + (crypto.randomUUID?.().slice(0,8) || Date.now().toString(36)).toUpperCase();
-    orders.unshift({id,items,branch:form.elements.branch.value,payment:form.elements.payment.value,stage:'received',created:Date.now()});
-    saveOrders();
-    quantities.clear();
+    if (!items.length || submitting) return;
+    const order = {...orderDetails(),items};
+    if (event.submitter === whatsappButton) {
+      const text = orderText('Pedido',order);
+      const dialog = KR.modal('<div class="modal-head"><h2>Pedido para WhatsApp</h2><button class="icon-button" data-close-dialog aria-label="Cerrar borrador">×</button></div><p>Revisa el mensaje. Si decides abrir WhatsApp, podrás elegir el destinatario.</p><pre class="receipt-text"></pre><div class="flow-actions"><a class="primary" id="open-order-whatsapp" target="_blank" rel="noopener noreferrer">Abrir WhatsApp</a><button class="secondary" type="button" data-close-dialog>Volver al pedido</button></div>');
+      dialog.querySelector('pre').textContent = text;
+      dialog.querySelector('#open-order-whatsapp').href = whatsapp(text);
+      return;
+    }
+    submitting = true;
     renderBasket();
-    result.innerHTML = `<strong>Pedido ${id} recibido en la demostración</strong><p>${KR.money(sum(items))} · <a class="underlined" href="#negocio">Ver cómo llegó al negocio</a></p>`;
+    const id = 'M-' + (globalThis.crypto?.randomUUID?.().slice(0,8) ?? (Date.now().toString(36) + Math.random().toString(36).slice(2,5))).toUpperCase();
+    await changeOrders(() => { orders.unshift({...order,id,stage:'received',created:Date.now()}); return true; });
+    quantities.clear();
+    submitting = false;
+    renderBasket();
+    result.innerHTML = `<strong>Pedido ${id} recibido</strong><p>${mode(order).name} · ${KR.money(sum(items))}</p><a class="secondary" href="#negocio">Ver en el negocio</a>`;
     result.hidden = false;
+    result.querySelector('a').focus({preventScroll:true});
   });
   filter.addEventListener('change',renderOrders);
-  list.addEventListener('click',event => {
+  fulfillmentFilter.addEventListener('change',renderOrders);
+  list.addEventListener('click',async event => {
     const button = event.target.closest('[data-next],[data-paid],[data-receipt]');
     if (!button) return;
     readOrders();
     const order = orders.find(item => item.id === (button.dataset.next || button.dataset.paid || button.dataset.receipt));
     if (!order) return;
     if (button.dataset.paid) {
-      order.paid = true;
-      saveOrders();
+      await changeOrders(() => {
+        const current = orders.find(item => item.id === order.id);
+        if (!current || current.paid) return false;
+        current.paid = true;
+        return true;
+      });
       document.getElementById('board-status').textContent = `Pago de prueba del pedido ${order.id} registrado.`;
       list.querySelector(`#pedido-${order.id} [data-receipt]`)?.focus({preventScroll:true});
       return;
     }
     if (button.dataset.next) {
-      const next = stages[stages.findIndex(stage => stage.id === order.stage) + 1];
+      const expected = button.dataset.stage;
+      const next = stages[stages.findIndex(stage => stage.id === expected) + 1];
       if (!next) return;
-      order.stage = next.id;
-      saveOrders();
+      await changeOrders(() => {
+        const current = orders.find(item => item.id === order.id);
+        if (current?.stage !== expected) return false;
+        current.stage = next.id;
+        return true;
+      });
+      const current = orders.find(item => item.id === order.id);
       const status = document.getElementById('board-status');
-      status.textContent = `Pedido ${order.id}: ${next.label}.`;
+      if (current) status.textContent = `Pedido ${order.id}: ${stageLabel(current)}.`;
       (document.querySelector(`#pedido-${order.id} [data-next], #pedido-${order.id} [data-receipt]`) || filter).focus({preventScroll:true});
       return;
     }
@@ -154,7 +227,7 @@
     dialog.querySelector('#share-receipt').href = whatsapp(text);
     dialog.querySelector('#save-receipt').addEventListener('click',() => KR.download('recibo-' + order.id + '.txt',text));
   });
-  window.addEventListener('hashchange',renderView);
+  window.addEventListener('hashchange',() => renderView(true));
   window.addEventListener('storage',event => {
     if (event.key !== 'kr-v2-' + storageKey) return;
     orders = [];
@@ -163,6 +236,7 @@
   });
   readOrders();
   renderOrders();
+  renderCheckout();
   renderBasket();
   renderView();
 })();
