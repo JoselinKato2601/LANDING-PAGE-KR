@@ -1,1 +1,1 @@
-(() => {const pages={inventario:'ferreteria',tienda:'moda',caja:'caja',agenda:'agenda'};const kind=new URLSearchParams(location.search).get('tipo');location.replace('examples/'+(pages[kind]||'ferreteria')+'.html');})();
+(() => {const pages={inventario:'ferreteria',tienda:'moda',caja:'caja',agenda:'agenda',sucursales:'sucursales',plasticos:'plasticos'};const kind=new URLSearchParams(location.search).get('tipo');location.replace('examples/'+(pages[kind]||'ferreteria')+'.html');})();

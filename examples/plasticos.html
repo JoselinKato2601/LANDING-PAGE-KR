@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Catálogo de plásticos para hogar y comercio con cotizador por volumen de muestra.">
+  <title>Plásticos Punto — Catálogo y cotizador</title>
+  <link rel="icon" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="comercios.css">
+  <script defer src="shared.js"></script>
+  <script defer src="plasticos.js"></script>
+</head>
+<body class="plastics">
+  <a class="skip-demo" href="#contenido">Ir al contenido</a>
+  <div class="preview-strip"><a href="../inicio.html#en-accion"><strong>KR</strong> Volver a los ejemplos</a><span>Negocio ficticio · Puedes probarlo</span></div>
+  <header class="demo-wrap shop-header"><a class="shop-logo" href="#contenido">punto<span>PLÁSTICOS PARA HOGAR Y COMERCIO</span></a><nav aria-label="Página de Plásticos Punto"><a href="#catalogo">Catálogo</a><a class="small-cta" href="#cotizacion">Mi cotización <span id="quote-count">0</span></a></nav></header>
+  <main id="contenido">
+    <section class="demo-wrap shop-hero">
+      <div><p class="shop-label">POR PIEZA O POR PEDIDO</p><h1>Lo que necesitas, <span>a la medida.</span></h1><p>Encuentra recipientes, cajas y productos de uso diario. Agrega lo que necesitas y calcula tu compra con precio por volumen.</p><div class="shop-actions"><a class="primary" href="#catalogo">Explorar productos</a><a class="shop-link" href="#cotizacion">Ver mi cotización</a></div></div>
+      <div class="shop-illustration plastics-poster" aria-hidden="true"><div class="poster-sun"></div><div class="poster-bin"><span></span></div><div class="poster-basket"><span></span></div><div class="poster-jug"></div><span class="poster-caption">Hogar & comercio</span></div>
+    </section>
+    <section class="shop-band" id="catalogo"><div class="demo-wrap demo-section">
+      <div class="demo-heading"><div><p class="shop-label">CATÁLOGO PUNTO</p><h2>Elige tus productos</h2></div><p>El precio por pieza baja al agregar 12 o más unidades de un mismo producto. Todos los importes son ficticios.</p></div>
+      <div class="demo-controls"><label class="field">Buscar producto<input id="product-search" type="search" placeholder="Ej. caja, cubeta o jarra"></label><label class="field">Categoría<select id="product-category"><option value="">Todas las categorías</option><option>Almacenamiento</option><option>Limpieza</option><option>Cocina</option></select></label></div>
+      <p class="result-count" id="product-count" role="status"></p>
+      <div class="catalog-results" id="catalog-results"></div>
+    </div></section>
+    <section class="demo-wrap demo-section order-layout" id="cotizacion">
+      <div><p class="shop-label">TU LISTA</p><h2>Calcula tu cotización</h2><p>Ajusta las cantidades y revisa los precios antes de descargar un resumen de muestra.</p></div>
+      <div class="shop-form"><div id="quote-items"></div><div id="quote-total" class="quote-total" aria-live="polite"></div><div class="shop-actions"><button type="button" class="primary" id="download-quote" disabled>Descargar cotización de muestra</button><button type="button" class="ghost" id="clear-quote" disabled>Vaciar lista</button></div><p class="hint">Cotización ilustrativa en pesos mexicanos. No incluye envío ni genera un pedido.</p></div>
+    </section>
+    <noscript><p class="demo-wrap">Activa JavaScript para filtrar productos y armar la cotización.</p></noscript>
+  </main>
+  <footer class="example-footer"><p>Plásticos Punto es un ejemplo creado por KR.</p><a href="../inicio.html#contacto">Quiero un catálogo para mi negocio</a></footer>
+  <dialog id="app-dialog" aria-label="Confirmar cambios"></dialog><div id="toast" class="toast" role="status"></div>
+</body>
+</html>

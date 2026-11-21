@@ -21,6 +21,10 @@ QUE PUEDES HACER EN LA LANDING
 - Preparar un mensaje de WhatsApp o contactar por llamada y correo.
 
 EJEMPLOS EN PAGINAS COMPLETAS
+examples/sucursales.html: Café Miga, página de cafetería con buscador de
+sucursales, horarios, menú y pedido para recoger de muestra.
+examples/plasticos.html: Plásticos Punto, catálogo con búsqueda, categorías,
+precios por volumen y descarga de una cotización de muestra.
 examples/ferreteria.html: Ferre Norte, control de productos, entradas/salidas,
 bitácora, reposición y archivos para Excel.
 examples/moda.html: Forma, tienda de ropa con tallas, colores, bolsa de compra
@@ -42,13 +46,15 @@ ARCHIVOS PRINCIPALES
 inicio.html / index.html: contenido de la landing.
 kr-estudio.css: diseño y adaptación a celular, tablet y computadora.
 kr-estudio.js: menú, recomendaciones, filtros y contacto.
-examples/: páginas completas de los cuatro negocios ficticios.
+examples/: páginas completas de los negocios ficticios.
 assets/: fuentes y símbolo KR. No contiene fotografías.
 
 REFERENCIAS DE DISENO REVISADAS
 https://clay.global/ — Jerarquía tipográfica y navegación breve.
 https://www.instrument.com/ — Presentación amplia de ejemplos y orden visual.
-https://www.ramotion.com/ — Explicación de servicios y contacto accesible.
+https://brittanychiang.com/ — Navegación breve y propuesta directa.
+https://bruno-simon.com/ — Interacción que demuestra el trabajo.
+https://www.nngroup.com/articles/color-enhance-design/ — Color y jerarquía visual.
 Se tomaron como referencias de composición; el texto y la identidad de KR
 se desarrollaron para este negocio. No se copiaron fotografías, clientes,
 testimonios, logotipos ni métricas de estos estudios.
