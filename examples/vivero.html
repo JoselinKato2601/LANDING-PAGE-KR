@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vivero Raíz · Servicios y sucursales</title>
+  <link rel="icon" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="base.css?v=7">
+  <link rel="stylesheet" href="comercios.css">
+  <link rel="stylesheet" href="sedes.css">
+  <script defer src="sedes.js"></script>
+</head>
+<body class="vivero">
+  <a class="skip-demo" href="#contenido">Ir al contenido</a>
+  <div class="preview-strip"><a href="../inicio.html#en-accion"><strong>KR</strong> Volver a los ejemplos</a><span>Negocio y ubicaciones de muestra</span></div>
+  <main class="place-main" id="contenido">
+    <nav class="place-nav" aria-label="Secciones de Vivero Raíz"><a class="place-logo" href="#contenido">Vivero Raíz</a><div class="place-links"><a class="secondary" href="#servicios">Servicios</a><a class="secondary" href="#sucursales">Sucursales</a><a class="primary" href="#consulta">Consultar actividades</a></div></nav>
+    <section class="place-hero" aria-labelledby="place-heading">
+      <div><p class="overline">Plantas, jardín y talleres</p><h1 id="place-heading">Haz espacio <span>para lo verde.</span></h1><p>Visita el vivero, encuentra ideas para tu casa y conoce dónde damos talleres y asesorías de jardinería.</p><div class="place-links"><a class="primary" href="#sucursales">Buscar sucursal</a><a class="secondary" href="#servicios">Ver servicios</a></div></div>
+      <div class="place-art" aria-hidden="true"><span class="place-plant"><i></i><i></i><i></i><b></b></span></div>
+    </section>
+    <section class="place-break" id="servicios" aria-labelledby="place-services-heading"><h2 id="place-services-heading">Qué puedes hacer en tu visita</h2><div class="place-services"><article class="place-card"><h3>Plantas de interior</h3><p>Conoce qué plantas van mejor con la luz y el espacio de tu casa.</p></article><article class="place-card"><h3>Taller de trasplante</h3><p>Aprende cuándo cambiar una maceta y cómo preparar la tierra.</p></article><article class="place-card"><h3>Asesoría de jardín</h3><p>Lleva tus dudas y planea el cuidado de tu patio o terraza.</p></article></div></section>
+    <section class="place-break" id="sucursales" aria-labelledby="place-locations-heading">
+      <h2 id="place-locations-heading">Elige una sede para tu visita</h2><p>Filtra por zona o por lo que quieras hacer en el vivero.</p>
+      <div class="place-controls"><label class="field">Zona<select id="place-zone"><option value="">Todas las zonas</option><option value="centro">Centro</option><option value="norte">Norte</option><option value="sur">Sur</option></select></label><label class="field">Servicio<select id="place-service"><option value="">Todos los servicios</option><option value="interior">Plantas de interior</option><option value="taller">Taller de trasplante</option><option value="asesoria">Asesoría de jardín</option></select></label></div>
+      <p class="place-status" id="place-status" role="status"></p>
+      <div class="place-locations" id="place-locations"><article class="place-card" data-location data-zone="centro" data-services="interior asesoria">
+          <h3>Raíz Barrio</h3><p>Mar a dom, 10:00 a 18:00</p><p>Plantas de interior · Asesoría de jardín</p>
+          <details><summary>Ver indicaciones</summary><p>Calle del Mercado, atrás de la plaza. Acceso por el portón verde.</p></details>
+          <a class="secondary" href="#consulta" data-choose="Raíz Barrio">Elegir Raíz Barrio</a>
+        </article><article class="place-card" data-location data-zone="norte" data-services="interior taller asesoria">
+          <h3>Raíz Invernadero</h3><p>Mar a dom, 9:00 a 18:00</p><p>Plantas de interior · Taller de trasplante · Asesoría de jardín</p>
+          <details><summary>Ver indicaciones</summary><p>Camino a la Estación, frente al mural del jardín.</p></details>
+          <a class="secondary" href="#consulta" data-choose="Raíz Invernadero">Elegir Raíz Invernadero</a>
+        </article><article class="place-card" data-location data-zone="sur" data-services="taller asesoria">
+          <h3>Raíz Taller</h3><p>Jue a dom, 10:00 a 16:00</p><p>Taller de trasplante · Asesoría de jardín</p>
+          <details><summary>Ver indicaciones</summary><p>Paseo del Río, a un lado del puente peatonal.</p></details>
+          <a class="secondary" href="#consulta" data-choose="Raíz Taller">Elegir Raíz Taller</a>
+        </article></div>
+    </section>
+    <section class="place-break place-appointment" id="consulta" aria-labelledby="place-request-heading">
+      <div><h2 id="place-request-heading" tabindex="-1">Consultar actividades</h2><p>Elige una actividad y una sede para preparar tu visita de muestra.</p></div>
+      <form class="place-form" id="place-form">
+        <label class="field">Sucursal<select name="branch"><option>Raíz Barrio</option><option>Raíz Invernadero</option><option>Raíz Taller</option></select></label>
+        <label class="field">Servicio<select name="activity"><option value="interior">Plantas de interior</option><option value="taller">Taller de trasplante</option><option value="asesoria">Asesoría de jardín</option></select></label>
+        <label class="field">Horario de muestra<select name="time"><option>Por la mañana</option><option>Al mediodía</option><option>Por la tarde</option></select></label>
+        <button class="primary" type="submit">Preparar solicitud</button><p class="place-result" id="place-result" role="status" hidden></p>
+      </form>
+    </section>
+  </main>
+  <footer class="example-footer"><p>Demostración de KR. Los horarios e indicaciones son ficticios.</p><a class="secondary" href="../inicio.html#cotizar">Quiero una página para mi negocio</a></footer>
+</body>
+</html>

@@ -2,11 +2,16 @@
   'use strict';
 
   const menu = [
-    {id:'coffee', name:'Café de la casa', note:'Café de filtro, servido caliente', cents:4900},
-    {id:'latte', name:'Latte de vainilla', note:'Espresso, leche y vainilla', cents:6800},
-    {id:'bread', name:'Pan de canela', note:'Masa suave con glaseado ligero', cents:4200},
-    {id:'sandwich', name:'Sándwich de la casa', note:'Pan tostado, queso y verduras', cents:9500}
+    {id:'coffee', name:'Café de la casa', note:'Café de filtro, servido caliente', category:'Bebidas', photo:0, cents:4900},
+    {id:'latte', name:'Latte de vainilla', note:'Espresso frío, leche y vainilla', category:'Bebidas', photo:1, cents:6800},
+    {id:'bread', name:'Pan de canela', note:'Masa suave con glaseado ligero', category:'Panadería', photo:2, cents:4200},
+    {id:'sandwich', name:'Sándwich de la casa', note:'Pan tostado, queso y verduras', category:'Para comer', photo:3, cents:9500}
   ];
+  const pickupTimes = {
+    'Miga Centro':['09:30','11:00','13:30','16:00','18:00'],
+    'Miga Norte':['10:00','12:00','14:00','17:00','19:00'],
+    'Miga Sur':['09:00','10:30','12:30','15:00','17:00']
+  };
   const payments = {
     card:{name:'Tarjeta en la página', status:'Pago simulado en la página', help:'Al enviar al negocio se simula el pago. La prueba no pide datos de tarjeta.'},
     whatsapp:{name:'Pago acordado por WhatsApp', status:'Pago por acordar por WhatsApp', help:'El negocio puede confirmar el importe y compartir por WhatsApp la forma de pago que prefiera.'},
@@ -34,6 +39,9 @@
   const fulfillmentFilter = document.getElementById('fulfillment-filter');
   const submit = document.getElementById('confirm-order');
   const whatsappButton = document.getElementById('whatsapp-order');
+  const basket = document.getElementById('basket');
+  const checkout = document.getElementById('order-checkout');
+  const jump = document.getElementById('catalog-jump');
   const whatsapp = text => 'https://wa.me/?text=' + encodeURIComponent(text);
   let submitting = false;
   const mode = order => fulfillment[order.fulfillment] || fulfillment.pickup;
@@ -43,7 +51,7 @@
   function deliveryText(order) {
     if (order.fulfillment === 'delivery') return `Dirección: ${order.address}`;
     if (order.fulfillment === 'dine') return order.table ? `Mesa ${order.table}` : 'Mesa por elegir al llegar';
-    return '';
+    return order.pickupTime ? `Recoger a las ${order.pickupTime} h` : '';
   }
 
   function stageLabel(order) {
@@ -79,35 +87,40 @@
   function orderDetails() {
     const fields = form.elements;
     const choice = fields.fulfillment.value;
-    return {fulfillment:choice, branch:fields.branch.value, payment:fields.payment.value,
+    return {fulfillment:choice, branch:fields.branch.value, payment:fields.payment.value, pickupTime:choice === 'pickup' ? fields.pickupTime.value : '',
       address:choice === 'delivery' ? fields.address.value.trim() : '', table:choice === 'dine' ? fields.table.value : ''};
   }
 
   function renderCheckout() {
     const order = orderDetails();
     const delivery = order.fulfillment === 'delivery';
+    const pickup = order.fulfillment === 'pickup';
     document.getElementById('branch-label').textContent = mode(order).branch;
     document.getElementById('address-field').hidden = !delivery;
     document.getElementById('dine-field').hidden = order.fulfillment !== 'dine';
+    document.getElementById('pickup-time-field').hidden = !pickup;
     form.elements.address.required = delivery;
     form.elements.address.disabled = !delivery;
     form.elements.table.disabled = order.fulfillment !== 'dine';
+    const timeSelect = form.elements.pickupTime;
+    timeSelect.disabled = !pickup;
+    if (timeSelect.dataset.branch !== order.branch) {
+      timeSelect.replaceChildren(new Option('Lo antes posible',''), ...pickupTimes[order.branch].map(time => new Option(time,time)));
+      timeSelect.dataset.branch = order.branch;
+    }
     form.elements.payment.querySelector('[value="pickup"]').textContent = mode(order).direct;
     document.getElementById('payment-help').textContent = payments[order.payment]?.help || 'El cliente paga directamente al negocio.';
   }
 
   function renderBasket() {
     const items = lines();
-    document.getElementById('basket').innerHTML = items.length
-      ? `<ul class="ticket-lines">${items.map(item => `<li><span>${item.quantity} × ${item.name}</span><b>${KR.money(item.quantity * item.cents)}</b></li>`).join('')}</ul><div class="ticket-total"><span>Total de muestra</span><strong>${KR.money(sum(items))}</strong></div>`
-      : '<p class="hint">Agrega algo del menú para empezar.</p>';
-    for (const item of menu) {
-      const qty = quantities.get(item.id) || 0;
-      const row = document.querySelector(`[data-product="${item.id}"]`);
-      row.querySelector('output').textContent = qty;
-      row.querySelector('[data-delta="-1"]').disabled = qty < 1;
-      row.querySelector('[data-delta="1"]').disabled = qty >= 20;
-    }
+    basket.innerHTML = items.length
+      ? KRMenu.cart(items,'miga') + `<div class="ticket-total"><span>Total de muestra</span><strong>${KR.money(sum(items))}</strong></div>`
+      : '<p class="hint">Agrega productos del menú para armar tu pedido.</p>';
+    catalog.refresh();
+    checkout.hidden = !items.length;
+    if (checkout.hidden) checkout.open = false;
+    KRMenu.updateJump(jump,items,sum(items));
     submit.disabled = whatsappButton.disabled = !items.length || submitting;
   }
 
@@ -146,18 +159,17 @@
     if (focus && changedView) document.getElementById(isBusiness ? 'business-title' : 'client-title').focus();
   }
 
-  document.getElementById('product-list').innerHTML = menu.map(item => `<article class="menu-row" data-product="${item.id}"><div><h3>${item.name}</h3><p>${item.note}</p><strong>${KR.money(item.cents)}</strong></div><div class="stepper"><button type="button" data-delta="-1" aria-label="Quitar ${item.name}">−</button><output aria-label="Cantidad de ${item.name}">0</output><button type="button" data-delta="1" aria-label="Agregar ${item.name}">+</button></div></article>`).join('');
-  document.getElementById('product-list').addEventListener('click',event => {
-    const button = event.target.closest('[data-delta]');
-    if (!button || submitting) return;
-    const id = button.closest('[data-product]').dataset.product;
-    const qty = (quantities.get(id) || 0) + Number(button.dataset.delta);
+  const getQuantity = id => quantities.get(id) || 0;
+  function setQuantity(id,qty) {
+    if (submitting) return;
     if (qty > 0) quantities.set(id,qty);
     else quantities.delete(id);
     result.hidden = true;
     renderBasket();
-    if (button.disabled) button.parentElement.querySelector('button:not(:disabled)')?.focus({preventScroll:true});
-  });
+  }
+  const catalog = KRMenu.mount(document.getElementById('product-list'),menu,{brand:'miga',get:getQuantity,set:setQuantity,placeholder:'Busca café, pan o algo para comer'});
+  KRMenu.bindQuantity(basket,getQuantity,setQuantity);
+  jump.addEventListener('click',()=>document.getElementById('cart-title').focus());
   form.addEventListener('change',renderCheckout);
   form.elements.address.addEventListener('input', () => {
     const field = form.elements.address;
@@ -166,7 +178,7 @@
   form.addEventListener('submit',async event => {
     event.preventDefault();
     const items = lines();
-    if (!items.length || submitting) return;
+    if (!items.length || submitting || !checkout.open || !event.submitter) return;
     const order = {...orderDetails(),items};
     if (event.submitter === whatsappButton) {
       const text = orderText('Pedido',order);
@@ -236,6 +248,9 @@
   });
   readOrders();
   renderOrders();
+  const requestedBranch = new URLSearchParams(location.search).get('sucursal');
+  const branchNames = new Map([['centro','Miga Centro'],['norte','Miga Norte'],['sur','Miga Sur']]);
+  if (branchNames.has(requestedBranch)) form.elements.branch.value = branchNames.get(requestedBranch);
   renderCheckout();
   renderBasket();
   renderView();

@@ -8,8 +8,10 @@
   <link rel="stylesheet" href="base.css?v=7">
   <link rel="stylesheet" href="comercios.css">
   <link rel="stylesheet" href="flujos.css?v=2">
+  <link rel="stylesheet" href="catalogo.css">
   <script defer src="shared.js"></script>
-  <script defer src="pedidos.js?v=2"></script>
+  <script defer src="catalogo.js"></script>
+  <script defer src="pedidos.js?v=3"></script>
 </head>
 <body class="miga">
   <a class="skip-demo" href="#contenido">Ir al contenido</a>
@@ -25,9 +27,12 @@
       </nav>
     </header>
     <section id="cliente" class="flow-board" aria-labelledby="client-title">
-      <div><h2 id="client-title" tabindex="-1">¿Qué se te antoja?</h2><div class="menu-order" id="product-list"></div><div class="flow-actions"><a class="secondary" href="sucursales.html#sucursales">Ver sucursales y horarios</a><a class="secondary" href="#order-form">Ir a mi pedido</a></div></div>
+      <div><h2 id="client-title" tabindex="-1">Menú de Café Miga</h2><div id="product-list"></div><div class="flow-actions catalog-link-row"><a class="secondary" href="sucursales.html#sucursales">Ver sucursales y horarios</a><a class="secondary" href="#order-form">Ir a mi pedido</a></div></div>
       <form class="flow-panel" id="order-form">
-        <h2>Tu pedido</h2><div id="basket" aria-live="polite"></div>
+        <h2 class="catalog-cart-title" id="cart-title" tabindex="-1">Tu pedido</h2><div id="basket"></div>
+        <details class="catalog-checkout" id="order-checkout" hidden>
+          <summary class="primary">Continuar con mi pedido</summary>
+          <div>
         <fieldset class="flow-choices">
           <legend>¿Cómo quieres recibirlo?</legend>
           <label><input class="sr-only" type="radio" name="fulfillment" value="pickup" checked>Para recoger</label>
@@ -35,6 +40,7 @@
           <label><input class="sr-only" type="radio" name="fulfillment" value="dine">Comer aquí</label>
         </fieldset>
         <label class="field"><span id="branch-label">Recoger en</span><select name="branch"><option>Miga Centro</option><option>Miga Norte</option><option>Miga Sur</option></select></label>
+        <label class="field" id="pickup-time-field">Hora para recoger<select name="pickupTime"></select></label>
         <label class="field" id="address-field" hidden>Dirección de ejemplo<input name="address" maxlength="140" placeholder="Ej. Avenida del Café 12"></label>
         <label class="field" id="dine-field" hidden>Mesa<select name="table"><option value="">La elijo al llegar</option><option value="01">Mesa 01</option><option value="02">Mesa 02</option><option value="03">Mesa 03</option><option value="04">Mesa 04</option></select></label>
         <label class="field">Cómo pagar<select name="payment"><option value="card">Tarjeta en la página · prueba</option><option value="whatsapp">Acordar pago por WhatsApp</option><option value="transfer">Transferencia al negocio</option><option value="pickup">Pagar al recoger</option></select></label>
@@ -45,8 +51,11 @@
           <button class="secondary" type="submit" name="channel" value="whatsapp" id="whatsapp-order" disabled>Preparar para WhatsApp</button>
           <p class="hint">En el primer caso aparece en el panel del negocio. Por WhatsApp puedes revisar el mensaje y elegir a quién enviarlo.</p>
         </div>
+          </div>
+        </details>
         <div class="inline-result flow-result" id="order-result" role="status" hidden></div>
       </form>
+      <button class="primary catalog-jump" id="catalog-jump" type="button" hidden>Ver pedido <span></span><strong></strong></button>
     </section>
     <section id="negocio" aria-labelledby="business-title" hidden>
       <div class="board-heading"><div><h2 id="business-title" tabindex="-1">Pedidos del negocio</h2><p>Consulta cómo debe entregarse cada pedido, actualiza su estado y prepara el recibo.</p></div>

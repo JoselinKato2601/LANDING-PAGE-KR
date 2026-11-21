@@ -8,8 +8,10 @@
   <link rel="stylesheet" href="base.css?v=7">
   <link rel="stylesheet" href="comercios.css">
   <link rel="stylesheet" href="flujos.css?v=2">
+  <link rel="stylesheet" href="catalogo.css">
   <script defer src="shared.js"></script>
-  <script defer src="restaurante.js"></script>
+  <script defer src="catalogo.js"></script>
+  <script defer src="restaurante.js?v=2"></script>
 </head>
 <body class="laurel">
   <a class="skip-demo" href="#contenido">Ir al contenido</a>
@@ -29,18 +31,19 @@
       <section class="flow-board" id="menu-de-mesa" aria-labelledby="station-title">
         <div>
           <h2 id="station-title" tabindex="-1">Menú de la mesa</h2>
-          <div class="menu-order" id="laurel-menu"></div>
+          <div id="laurel-menu"></div>
         </div>
         <form class="flow-panel" id="table-form">
-          <h2 id="table-form-title">Tu pedido</h2>
+          <h2 class="catalog-cart-title" id="table-form-title" tabindex="-1">Tu pedido</h2>
           <label class="field">Mesa<select name="table" id="table-number"><option>01</option><option>02</option><option>03</option><option selected>04</option><option>05</option><option>06</option></select></label>
-          <div id="table-basket" aria-live="polite" aria-atomic="true"></div>
+          <div id="table-basket"></div>
           <label class="field">Indicaciones para cocina <span class="hint">Opcional. Por ejemplo, sin cebolla.</span><textarea name="note" rows="2" maxlength="160"></textarea></label>
           <label class="field" id="staff-field" hidden>Mesero<select name="staff"><option value="">Sin asignar</option><option>Ana</option><option>Leo</option></select></label>
           <button class="primary" id="send-table-order" type="submit" disabled>Enviar a meseros</button>
           <div class="inline-result" id="table-result" role="status" hidden></div>
           <a class="secondary" id="station-next" href="#meseros">Ver pedidos de meseros</a>
         </form>
+        <button class="primary catalog-jump" id="catalog-jump" type="button" hidden>Ver pedido <span></span><strong></strong></button>
       </section>
       <section class="saved-cuts" id="table-tracking" aria-labelledby="tracking-title">
         <h2 id="tracking-title">Pedidos de tu mesa</h2>

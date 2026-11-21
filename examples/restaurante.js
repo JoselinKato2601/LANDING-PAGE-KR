@@ -2,10 +2,10 @@
   'use strict';
 
   const menu = [
-    {id:'enchiladas', name:'Enchiladas de la casa', detail:'Pollo, salsa verde y crema', cents:12500},
-    {id:'tacos', name:'Tacos de guisado', detail:'Tres tacos con guarnición', cents:10500},
-    {id:'sopa', name:'Sopa de tortilla', detail:'Aguacate, queso y chile pasilla', cents:8500},
-    {id:'jamaica', name:'Agua de jamaica', detail:'Vaso de agua fresca', cents:3500}
+    {id:'enchiladas', name:'Enchiladas de la casa', detail:'Pollo, salsa verde y crema', category:'Platos fuertes', photo:0, cents:12500},
+    {id:'tacos', name:'Tacos de guisado', detail:'Tres tacos con guarnición', category:'Platos fuertes', photo:1, cents:10500},
+    {id:'sopa', name:'Sopa de tortilla', detail:'Aguacate, queso y chile pasilla', category:'Entradas', photo:2, cents:8500},
+    {id:'jamaica', name:'Agua de jamaica', detail:'Vaso de agua fresca', category:'Bebidas', photo:3, cents:3500}
   ];
   const statuses = {
     waiting:'Por confirmar',
@@ -35,11 +35,12 @@
   const waiterOrders = document.getElementById('waiter-orders');
   const kitchenOrders = document.getElementById('kitchen-orders');
   const submit = document.getElementById('send-table-order');
+  const jump = document.getElementById('catalog-jump');
   const drafts = {
     mesa:{table:'04', note:'', staff:'', quantities:new Map()},
     'tomar-pedido':{table:'04', note:'', staff:'', quantities:new Map()}
   };
-  let view;
+  let view = 'mesa';
 
   function readOrders() {
     const orders = new Map(memory);
@@ -77,14 +78,10 @@
     const {quantities} = drafts[view];
     const items = menu.filter(item => quantities.has(item.id)).map(item => ({...item, quantity:quantities.get(item.id)}));
     basket.innerHTML = items.length
-      ? ticketLines(items) + `<div class="ticket-total"><span>Total de muestra</span><strong>${currency(items)}</strong></div>`
-      : '<p class="hint">Agrega algo del menú para empezar.</p>';
-    for (const row of productList.querySelectorAll('[data-product]')) {
-      const quantity = quantities.get(row.dataset.product) ?? 0;
-      row.querySelector('output').value = quantity;
-      row.querySelector('[data-delta="-1"]').disabled = quantity === 0;
-      row.querySelector('[data-delta="1"]').disabled = quantity >= 20;
-    }
+      ? KRMenu.cart(items,'laurel') + `<div class="ticket-total"><span>Total de muestra</span><strong>${currency(items)}</strong></div>`
+      : '<p class="hint">Agrega platillos o bebidas para armar el pedido.</p>';
+    catalog.refresh();
+    KRMenu.updateJump(jump,items,items.reduce((total,item)=>total+item.cents*item.quantity,0));
     submit.disabled = !items.length;
     return items;
   }
@@ -169,22 +166,20 @@
     if (focus) document.querySelector(view === 'meseros' ? '#waiter-title' : view === 'cocina' ? '#kitchen-title' : '#station-title').focus();
   }
 
-  productList.innerHTML = menu.map(item => `<article class="menu-row" data-product="${item.id}"><div><h3>${item.name}</h3><p>${item.detail}</p><strong>${KR.money(item.cents)}</strong></div><div class="stepper"><button type="button" data-delta="-1" aria-label="Quitar ${item.name}">−</button><output aria-label="Cantidad de ${item.name}">0</output><button type="button" data-delta="1" aria-label="Agregar ${item.name}">+</button></div></article>`).join('');
-  productList.addEventListener('click', event => {
-    const button = event.target.closest('[data-delta]');
-    if (!button) return;
-    const id = button.closest('[data-product]').dataset.product;
+  const getQuantity = id => drafts[view].quantities.get(id) || 0;
+  function setQuantity(id,qty) {
     const quantities = drafts[view].quantities;
-    const qty = (quantities.get(id) ?? 0) + Number(button.dataset.delta);
     if (qty) quantities.set(id, qty);
     else quantities.delete(id);
     result.hidden = true;
     renderBasket();
-    if (button.disabled) button.parentElement.querySelector('button:not(:disabled)')?.focus({preventScroll:true});
-  });
+  }
+  const catalog = KRMenu.mount(productList,menu,{brand:'laurel',get:getQuantity,set:setQuantity,placeholder:'Busca platillos o bebidas'});
+  KRMenu.bindQuantity(basket,getQuantity,setQuantity);
+  jump.addEventListener('click',()=>document.getElementById('table-form-title').focus());
 
   form.addEventListener('input', event => {
-    drafts[view][event.target.name] = event.target.value;
+    if (event.target.name) drafts[view][event.target.name] = event.target.value;
     if (event.target.name === 'table') renderStations();
   });
   form.addEventListener('submit', event => {

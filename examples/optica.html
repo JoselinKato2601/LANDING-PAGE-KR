@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Óptica Clara · Servicios y sucursales</title>
+  <link rel="icon" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="base.css?v=7">
+  <link rel="stylesheet" href="comercios.css">
+  <link rel="stylesheet" href="sedes.css">
+  <script defer src="sedes.js"></script>
+</head>
+<body class="optica">
+  <a class="skip-demo" href="#contenido">Ir al contenido</a>
+  <div class="preview-strip"><a href="../inicio.html#en-accion"><strong>KR</strong> Volver a los ejemplos</a><span>Negocio y ubicaciones de muestra</span></div>
+  <main class="place-main" id="contenido">
+    <nav class="place-nav" aria-label="Secciones de Óptica Clara"><a class="place-logo" href="#contenido">Óptica Clara</a><div class="place-links"><a class="secondary" href="#servicios">Servicios</a><a class="secondary" href="#sucursales">Sucursales</a><a class="primary" href="#consulta">Agendar revisión</a></div></nav>
+    <section class="place-hero" aria-labelledby="place-heading">
+      <div><p class="overline">Óptica y cuidado visual</p><h1 id="place-heading">Ve de cerca <span>lo que importa.</span></h1><p>Encuentra una sucursal cercana, conoce nuestros servicios y elige un horario para tu próxima revisión.</p><div class="place-links"><a class="primary" href="#sucursales">Buscar sucursal</a><a class="secondary" href="#servicios">Ver servicios</a></div></div>
+      <div class="place-art" aria-hidden="true"><span class="place-lens left"></span><span class="place-bridge"></span><span class="place-lens right"></span></div>
+    </section>
+    <section class="place-break" id="servicios" aria-labelledby="place-services-heading"><h2 id="place-services-heading">Qué puedes hacer en tu visita</h2><div class="place-services"><article class="place-card"><h3>Revisión visual</h3><p>Consulta de muestra para conocer tus necesidades de visión.</p></article><article class="place-card"><h3>Asesoría de armazones</h3><p>Conoce formas, materiales y opciones para uso diario.</p></article><article class="place-card"><h3>Ajuste de lentes</h3><p>Un ajuste rápido para que tu armazón se sienta cómodo.</p></article></div></section>
+    <section class="place-break" id="sucursales" aria-labelledby="place-locations-heading">
+      <h2 id="place-locations-heading">Cerca de donde estás</h2><p>Consulta horarios, indicaciones y servicios de cada sucursal.</p>
+      <div class="place-controls"><label class="field">Zona<select id="place-zone"><option value="">Todas las zonas</option><option value="centro">Centro</option><option value="norte">Norte</option><option value="sur">Sur</option></select></label><label class="field">Servicio<select id="place-service"><option value="">Todos los servicios</option><option value="revision">Revisión visual</option><option value="armazones">Asesoría de armazones</option><option value="ajuste">Ajuste de lentes</option></select></label></div>
+      <p class="place-status" id="place-status" role="status"></p>
+      <div class="place-locations" id="place-locations"><article class="place-card" data-location data-zone="centro" data-services="revision armazones ajuste">
+          <h3>Clara Centro</h3><p>Lun a sáb, 9:00 a 18:00</p><p>Revisión visual · Asesoría de armazones · Ajuste de lentes</p>
+          <details><summary>Ver indicaciones</summary><p>Plaza del centro, frente al kiosco. Entrada por el corredor principal.</p></details>
+          <a class="secondary" href="#consulta" data-choose="Clara Centro">Elegir Clara Centro</a>
+        </article><article class="place-card" data-location data-zone="norte" data-services="revision armazones">
+          <h3>Clara Norte</h3><p>Lun a sáb, 10:00 a 19:00</p><p>Revisión visual · Asesoría de armazones</p>
+          <details><summary>Ver indicaciones</summary><p>Galería Norte, local 08, a un costado de la entrada principal.</p></details>
+          <a class="secondary" href="#consulta" data-choose="Clara Norte">Elegir Clara Norte</a>
+        </article><article class="place-card" data-location data-zone="sur" data-services="armazones ajuste">
+          <h3>Clara Sur</h3><p>Mar a sáb, 9:00 a 17:00</p><p>Asesoría de armazones · Ajuste de lentes</p>
+          <details><summary>Ver indicaciones</summary><p>Paseo del Parque, planta baja, junto a la entrada sur.</p></details>
+          <a class="secondary" href="#consulta" data-choose="Clara Sur">Elegir Clara Sur</a>
+        </article></div>
+    </section>
+    <section class="place-break place-appointment" id="consulta" aria-labelledby="place-request-heading">
+      <div><h2 id="place-request-heading" tabindex="-1">Agendar revisión</h2><p>Elige un servicio y una sucursal para preparar una cita de muestra.</p></div>
+      <form class="place-form" id="place-form">
+        <label class="field">Sucursal<select name="branch"><option>Clara Centro</option><option>Clara Norte</option><option>Clara Sur</option></select></label>
+        <label class="field">Servicio<select name="activity"><option value="revision">Revisión visual</option><option value="armazones">Asesoría de armazones</option><option value="ajuste">Ajuste de lentes</option></select></label>
+        <label class="field">Horario de muestra<select name="time"><option>Por la mañana</option><option>Al mediodía</option><option>Por la tarde</option></select></label>
+        <button class="primary" type="submit">Preparar solicitud</button><p class="place-result" id="place-result" role="status" hidden></p>
+      </form>
+    </section>
+  </main>
+  <footer class="example-footer"><p>Demostración de KR. Los horarios e indicaciones son ficticios.</p><a class="secondary" href="../inicio.html#cotizar">Quiero una página para mi negocio</a></footer>
+</body>
+</html>

@@ -5,3 +5,22 @@
 
 .fashion-hero-art{overflow:clip}
 @media(max-width:700px){.cart-line-controls .stepper button{min-height:44px;min-width:36px}.color-options button{width:42px;height:42px}.size-options button{min-height:44px}.remove-item{min-height:44px}}
+
+.fashion-photo { display:block; width:100%; aspect-ratio:1; background:#eee2d3 url('../assets/forma-catalogo.webp') no-repeat; background-size:300% 200%; }
+.product-art-button:after { content:none; }
+.product-art-button { border-radius:5px; }
+.fashion-product-info { grid-template-columns:minmax(0,1fr) auto; align-items:start; }
+.fashion-choose { grid-column:1/-1; width:100%; margin-top:5px; text-align:center; }
+.product-detail-art:has(.fashion-photo) { height:auto; }
+.product-detail-art .fashion-photo { width:min(100%,430px); }
+.cart-line-art .fashion-photo { align-self:start; }
+.fashion-amount { width:96px; margin-top:14px; }
+.detail-add { margin-top:12px; }
+#detail-cart { margin-top:10px; }
+.fashion-quick-bag { display:none; }
+@media(max-width:700px) {
+  .fashion-product-info { grid-template-columns:minmax(0,1fr); }
+  .fashion-choose { font-size:.8rem; padding-inline:8px; }
+  .fashion-quick-bag:not([hidden]) { position:fixed; z-index:8; inset:auto 12px max(12px,env(safe-area-inset-bottom)) 12px; width:calc(100% - 24px); display:flex; justify-content:space-between; box-shadow:0 4px 17px #26352140; }
+  body:has(.fashion-quick-bag:not([hidden])) { padding-bottom:60px; }
+}

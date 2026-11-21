@@ -6,9 +6,9 @@ Abre inicio.html. Es el acceso directo a la nueva presentación de KR.
 index.html contiene la misma página para conservar los accesos anteriores.
 No hace falta instalar paquetes ni crear cuentas.
 
-La página no contiene fotografías, retratos, enlaces a perfiles ni proyectos
-de programación. El equipo se presenta únicamente por sus nombres:
-Joselin y Jordi Daniel Reyes Hernandez.
+La portada presenta a KR como un estudio independiente. Los catálogos de
+muestra incluyen imágenes de productos y la sección del equipo se presenta
+como estudio, sin nombres personales.
 
 La presentación habla de necesidades de negocio, con lenguaje sencillo:
 mostrar servicios, vender productos, organizar inventario, revisar caja y
@@ -22,7 +22,7 @@ QUE PUEDES HACER EN LA LANDING
 - Preparar un mensaje de WhatsApp o contactar por llamada y correo.
 
 EJEMPLOS EN PAGINAS COMPLETAS
-examples/pedidos.html: Tienda de comida para recoger, pedir a domicilio o
+examples/pedidos.html: Catálogo de comida con imágenes y carrito. Para recoger, pedir a domicilio o
 comer en el local. Incluye pagos de prueba, pedidos del negocio y recibos.
 Puedes revisar un borrador y elegir a quién mandarlo por WhatsApp.
 examples/restaurante.html: Pedidos desde la mesa o tomados por un mesero,
@@ -30,6 +30,9 @@ comandas en cocina y avisos de que el pedido está listo para servir.
 examples/cortes.html: Cortes por turno, pagos separados y resumen descargable.
 examples/sucursales.html: Café Miga, página de cafetería con buscador de
 sucursales, horarios, menú y pedido para recoger de muestra.
+examples/optica.html: Óptica Clara, sucursales por zona y servicio,
+indicaciones de muestra y solicitud de cita.
+examples/vivero.html: Vivero Raíz, sedes, talleres y consulta de visita.
 examples/plasticos.html: Plásticos Punto, catálogo con búsqueda, categorías,
 precios por volumen y descarga de una cotización de muestra.
 examples/ferreteria.html: Ferre Norte, control de productos, entradas/salidas,
@@ -54,7 +57,7 @@ inicio.html / index.html: contenido de la landing.
 kr-estudio.css: diseño y adaptación a celular, tablet y computadora.
 kr-estudio.js: menú, filtros y contacto.
 examples/: páginas completas de los negocios ficticios.
-assets/: fuentes, ilustración de portada y símbolo KR. No contiene fotografías.
+assets/: fuentes, ilustración de portada, fotos de producto y símbolo KR. Las fotos de producto son de muestra.
 
 REFERENCIAS DE DISENO REVISADAS
 https://clay.global/ — Jerarquía tipográfica y navegación breve.

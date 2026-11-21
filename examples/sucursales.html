@@ -8,12 +8,13 @@
   <link rel="icon" href="../assets/favicon.svg">
   <link rel="stylesheet" href="base.css?v=7">
   <link rel="stylesheet" href="comercios.css">
-  <script defer src="sucursales.js"></script>
+  <link rel="stylesheet" href="catalogo.css">
+  <script defer src="sucursales.js?v=2"></script>
 </head>
 <body class="miga">
   <a class="skip-demo" href="#contenido">Ir al contenido</a>
   <div class="preview-strip"><a href="../inicio.html#en-accion"><strong>KR</strong> Volver a los ejemplos</a><span>Negocio ficticio · Puedes probarlo</span></div>
-  <header class="demo-wrap shop-header"><a class="shop-logo" href="#contenido">café miga<span>CAFÉ Y PAN</span></a><nav aria-label="Página de Café Miga"><a class="secondary" href="#sucursales">Sucursales</a><a class="secondary" href="#menu">Menú</a><a class="primary" href="#pedido">Armar un pedido</a><a class="secondary" href="pedidos.html">Tienda de comida</a></nav></header>
+  <header class="demo-wrap shop-header"><a class="shop-logo" href="#contenido">café miga<span>CAFÉ Y PAN</span></a><nav aria-label="Página de Café Miga"><a class="secondary" href="#sucursales">Sucursales</a><a class="secondary" href="#menu">Menú</a><a class="primary" href="pedidos.html#cliente">Armar un pedido</a></nav></header>
   <main id="contenido">
     <section class="demo-wrap shop-hero">
       <div><p class="shop-label">CAFÉ FRESCO Y PAN DEL DÍA</p><h1>Tu pausa, <span>cerquita.</span></h1><p>Encuentra un Café Miga para sentarte un rato, reunirte con alguien o pasar por tu pedido.</p><div class="shop-actions"><a class="primary" href="#sucursales">Buscar una sucursal</a><a class="secondary" href="#menu">Conocer el menú</a></div></div>
@@ -27,20 +28,13 @@
     </div></section>
     <section class="demo-wrap demo-section" id="menu">
       <div class="demo-heading"><div><p class="shop-label">ALGO PARA ACOMPAÑAR EL CAFÉ</p><h2>Del menú de Miga</h2></div><p>Una muestra del menú que tus clientes podrían consultar antes de visitar el local.</p></div>
-      <div class="menu-items"><article><h3>Café de la casa</h3><p>Café de filtro, servido caliente.</p><strong>$49</strong></article><article><h3>Latte de vainilla</h3><p>Espresso, leche y un toque de vainilla.</p><strong>$68</strong></article><article><h3>Pan de canela</h3><p>Masa suave y glaseado ligero.</p><strong>$42</strong></article></div>
+      <div class="menu-items"><article><span class="catalog-photo photo-miga photo-0 miga-menu-photo" aria-hidden="true"></span><h3>Café de la casa</h3><p>Café de filtro, servido caliente.</p><strong>$49</strong></article><article><span class="catalog-photo photo-miga photo-1 miga-menu-photo" aria-hidden="true"></span><h3>Latte de vainilla</h3><p>Espresso, leche y un toque de vainilla.</p><strong>$68</strong></article><article><span class="catalog-photo photo-miga photo-2 miga-menu-photo" aria-hidden="true"></span><h3>Pan de canela</h3><p>Masa suave y glaseado ligero.</p><strong>$42</strong></article></div>
     </section>
     <section class="shop-band" id="pedido"><div class="demo-wrap demo-section order-layout">
-      <div><p class="shop-label">PEDIDO PARA RECOGER</p><h2>Pide antes de salir</h2><p>Elige una sucursal, un producto y la hora aproximada para recogerlo. Podrás revisar un resumen de prueba.</p></div>
-      <form class="shop-form" id="pickup-form">
-        <label class="field">Sucursal<select id="pickup-branch" name="branch" required></select></label>
-        <label class="field">Producto<select name="product" required><option value="coffee">Café de la casa · $49</option><option value="latte">Latte de vainilla · $68</option><option value="bread">Pan de canela · $42</option></select></label>
-        <div class="form-grid"><label class="field">Cantidad<input type="number" name="quantity" min="1" max="12" value="1" required inputmode="numeric"></label><label class="field">Hora de retiro<select id="pickup-time" name="time" required></select></label></div>
-        <button class="primary" type="submit">Ver mi pedido de ejemplo</button>
-        <p class="hint">La demostración no envía pedidos ni realiza cobros.</p>
-        <div class="inline-result" id="pickup-result" aria-live="polite" hidden></div>
-      </form>
+      <div><h2>Pide antes de salir</h2><p>Arma un solo pedido con cafés, panes y algo para comer. Elige la sucursal y la hora al continuar.</p></div>
+      <div class="shop-form"><a class="primary" href="pedidos.html#cliente">Abrir menú y armar pedido</a></div>
     </div></section>
-    <noscript><p class="demo-wrap">Activa JavaScript para buscar sucursales y preparar un pedido de prueba.</p></noscript>
+    <noscript><p class="demo-wrap">Activa JavaScript para filtrar las sucursales.</p></noscript>
   </main>
   <footer class="example-footer"><p>Café Miga es un ejemplo creado por KR. Sucursales, horarios e importes de muestra.</p><a class="secondary" href="../inicio.html#contacto">Quiero una página para mi negocio</a></footer>
 </body>
