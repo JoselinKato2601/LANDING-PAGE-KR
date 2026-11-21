@@ -12,9 +12,9 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="preload" href="assets/manrope-regular.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="assets/space-grotesk-bold.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="kr-estudio.css?v=7">
+  <link rel="stylesheet" href="kr-estudio.css?v=8">
   <link rel="stylesheet" href="kr-planes.css?v=1">
-  <script defer src="kr-estudio.js?v=7"></script>
+  <script defer src="kr-estudio.js?v=8"></script>
 </head>
 <body>
   <a class="skip" href="#contenido">Ir al contenido</a>
@@ -37,16 +37,18 @@
         <p class="hero-personal">Con Joselin y Jordi, de la primera conversación a la entrega.</p>
       </div>
       <div class="starting-point">
-        <div class="starting-heading"><h2>¿Qué te gustaría <br>hacer más fácil?</h2></div>
+        <div class="starting-heading"><h2>¿Qué quieres hacer más fácil?</h2></div>
         <fieldset class="goal-options"><legend class="visually-hidden">Elige qué necesitas para tu negocio</legend>
-          <label class="goal-option"><input type="radio" name="business-goal" value="branches" checked><span>Dar a conocer mis sucursales</span><span class="choice-mark" aria-hidden="true"></span></label>
-          <label class="goal-option"><input type="radio" name="business-goal" value="store"><span>Vender mis productos</span><span class="choice-mark" aria-hidden="true"></span></label>
-          <label class="goal-option"><input type="radio" name="business-goal" value="inventory"><span>Organizar mi inventario</span><span class="choice-mark" aria-hidden="true"></span></label>
-          <label class="goal-option"><input type="radio" name="business-goal" value="cash"><span>Llevar mejor mis cuentas</span><span class="choice-mark" aria-hidden="true"></span></label>
-          <label class="goal-option"><input type="radio" name="business-goal" value="booking"><span>Administrar mis citas</span><span class="choice-mark" aria-hidden="true"></span></label>
+          <label class="goal-option"><input class="visually-hidden" type="radio" name="business-goal" value="branches" checked><span>Sucursales</span></label>
+          <label class="goal-option"><input class="visually-hidden" type="radio" name="business-goal" value="store"><span>Tienda en línea</span></label>
+          <label class="goal-option"><input class="visually-hidden" type="radio" name="business-goal" value="inventory"><span>Inventario</span></label>
+          <label class="goal-option"><input class="visually-hidden" type="radio" name="business-goal" value="cash"><span>Corte de caja</span></label>
+          <label class="goal-option"><input class="visually-hidden" type="radio" name="business-goal" value="booking"><span>Agenda de citas</span></label>
         </fieldset>
-        <div class="recommendation" aria-live="polite" aria-atomic="true"><h3 id="recommendation-title">Una página para tus sucursales.</h3><p id="recommendation-copy">Ayuda a tus clientes a elegir qué local visitar, consultar su horario o preparar un pedido.</p></div>
-        <a class="recommendation-link" id="recommendation-link" href="examples/sucursales.html" target="_blank" rel="noopener noreferrer">Ver página de sucursales <span>En otra pestaña</span></a>
+        <div class="recommendation-panel">
+          <div class="recommendation" aria-live="polite" aria-atomic="true"><h3 id="recommendation-title">Una página para tus sucursales.</h3><p id="recommendation-copy">Ayuda a tus clientes a elegir qué local visitar, consultar su horario o preparar un pedido.</p></div>
+          <a class="recommendation-link" id="recommendation-link" href="examples/sucursales.html" target="_blank" rel="noopener noreferrer"><span id="recommendation-label">Ver página de sucursales</span> <span class="recommendation-note">En otra pestaña</span></a>
+        </div>
       </div>
     </section>
 

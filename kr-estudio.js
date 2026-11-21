@@ -25,7 +25,8 @@
     const goal=goals[input.value];if(!goal)return;
     document.getElementById('recommendation-title').textContent=goal.title;
     document.getElementById('recommendation-copy').textContent=goal.copy;
-    const link=document.getElementById('recommendation-link');link.href=goal.link;link.replaceChildren(document.createTextNode(goal.label+' '));const caption=document.createElement('span');caption.textContent='En otra pestaña';link.append(caption);
+    document.getElementById('recommendation-link').href=goal.link;
+    document.getElementById('recommendation-label').textContent=goal.label;
     if(interactive){
       document.getElementById('contact-service').value=goal.interest;
       const panel=document.querySelector('.recommendation');panel.classList.remove('changed');void panel.offsetWidth;panel.classList.add('changed');
