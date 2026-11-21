@@ -1,6 +1,6 @@
 # LANDING PAGE KR
 
-Página de presentación de **KR**, el equipo de Joselin y Jordi Daniel Reyes Hernandez. Presenta servicios para negocios con lenguaje sencillo, contacto directo y seis ejemplos interactivos en páginas independientes.
+Página de presentación de **KR**, el equipo de Joselin y Jordi Daniel Reyes Hernandez. Presenta servicios para negocios con lenguaje sencillo, contacto directo y ocho ejemplos interactivos en páginas independientes.
 
 ## Abrir el sitio
 
@@ -15,6 +15,9 @@ python -m http.server 5500 --bind 127.0.0.1
 Después abre `http://127.0.0.1:5500/inicio.html`.
 
 ## Ejemplos incluidos
+
+- **Café Miga Pedidos:** menú, formas de pago de muestra, vista de negocio y recibos para compartir.
+- **Cortes por turnos:** efectivo esperado, faltantes o sobrantes e historial descargable.
 
 - **Café Miga Sucursales:** página de cafetería con horarios, menú, filtros y pedido para recoger de muestra.
 - **Plásticos Punto:** catálogo, precios por volumen y cotización descargable.

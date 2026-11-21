@@ -33,7 +33,16 @@
   }
   document.querySelectorAll('[name="business-goal"]').forEach(input=>input.addEventListener('change',()=>updateGoal(input)));
   window.addEventListener('pageshow',()=>{const selected=document.querySelector('[name="business-goal"]:checked');if(selected)updateGoal(selected,false);});
-  document.querySelectorAll('[data-interest]').forEach(link=>link.addEventListener('click',()=>{document.getElementById('contact-service').value=link.dataset.interest;}));
+  document.querySelectorAll('[data-interest]').forEach(link => link.addEventListener('click',() => {
+    const field = document.getElementById('contact-service');
+    field.value = link.dataset.interest;
+    field.dispatchEvent(new Event('change',{bubbles:true}));
+  }));
+  document.querySelectorAll('[data-plan]').forEach(link => link.addEventListener('click',() => {
+    const field = document.getElementById('contact-plan');
+    field.value = link.dataset.plan;
+    field.dispatchEvent(new Event('change',{bubbles:true}));
+  }));
   document.querySelectorAll('.service').forEach(detail=>detail.addEventListener('toggle',()=>{if(detail.open)document.querySelectorAll('.service').forEach(other=>{if(other!==detail)other.open=false;});}));
 
   const filters=[...document.querySelectorAll('[data-filter]')],examples=[...document.querySelectorAll('.example')];
@@ -44,7 +53,7 @@
       filter.setAttribute('aria-pressed',String(active));
     }
     for (const example of examples) {
-      example.hidden = category !== 'all' && example.dataset.category !== category;
+      example.hidden = category !== 'all' && !example.dataset.category.split(' ').includes(category);
     }
     const count = examples.filter(example => !example.hidden).length;
     document.getElementById('filter-status').textContent = count === 1 ? '1 ejemplo' : `${count} ejemplos`;
@@ -53,15 +62,56 @@
   document.querySelectorAll('[data-show-examples]').forEach(link =>
     link.addEventListener('click',() => showExamples(link.dataset.showExamples))
   );
-  window.addEventListener('pageshow',() => showExamples('all'));
+  showExamples('all');
 
-  const form=document.getElementById('contact-form');
-  form.addEventListener('submit',event=>{
-    event.preventDefault();const name=form.elements.name.value.trim(),message=form.elements.message.value.trim(),feedback=document.getElementById('contact-feedback');
-    if(!name||!message){feedback.textContent='Escribe tu nombre y un poco sobre tu idea para preparar el mensaje.';return;}
-    const text=`Hola, equipo de KR. Soy ${name}.\nMe gustaría: ${form.elements.service.value}.\n\n${message}`;
-    const href='https://wa.me/529618578982?text='+encodeURIComponent(text);window.open(href,'_blank','noopener,noreferrer');
-    feedback.replaceChildren(document.createTextNode('Tu mensaje está preparado. Si WhatsApp no se abrió, '));const link=document.createElement('a');link.href=href;link.target='_blank';link.rel='noopener noreferrer';link.textContent='puedes abrirlo aquí.';feedback.append(link);
+  const form = document.getElementById('contact-form');
+  const preview = document.getElementById('quote-preview');
+  const quoteLink = document.getElementById('quote-whatsapp');
+  const feedback = document.getElementById('contact-feedback');
+  function resetPreview() {
+    if (!preview.hidden) {
+      preview.hidden = true;
+      quoteLink.removeAttribute('href');
+      feedback.textContent = 'Prepara otro mensaje para incluir tus cambios.';
+    }
+  }
+  form.addEventListener('input',resetPreview);
+  form.addEventListener('change',resetPreview);
+  form.addEventListener('submit',event => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const name = data.get('name').trim();
+    const message = data.get('message').trim();
+    if (!name || !message) {
+      feedback.textContent = 'Escribe tu nombre y un poco sobre tu idea para preparar el mensaje.';
+      (name ? form.elements.message : form.elements.name).focus();
+      return;
+    }
+    const features = data.getAll('feature');
+    const text = [
+      `Hola, equipo de KR. Soy ${name} y me gustaría solicitar una cotización.`,
+      `Me interesa: ${data.get('service')}.`,
+      `Dónde lo usaré: ${data.get('use')}.`,
+      `Forma de pago: ${form.elements.plan.selectedOptions[0].textContent}.`,
+      features.length ? `Funciones: ${features.join(', ')}.` : '',
+      '', message
+    ].filter((line,index,lines) => line || index === lines.length - 2).join('\n');
+    document.getElementById('quote-text').textContent = text;
+    quoteLink.href = 'https://wa.me/529618578982?text=' + encodeURIComponent(text);
+    preview.hidden = false;
+    feedback.textContent = 'Tu mensaje está listo para revisar.';
+    quoteLink.focus();
   });
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  if ('IntersectionObserver' in window && !reduceMotion.matches) {
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add('scroll-enter');
+        observer.unobserve(entry.target);
+      }
+    },{threshold:.12});
+    document.querySelectorAll('main .section-heading,.example,.services-intro,.service-list,.process-list>li,.plan,.team-layout,.faq-list,.contact-form').forEach(element => observer.observe(element));
+  }
   document.getElementById('year').textContent=String(new Date().getFullYear());
 })();

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Café Miga · Menú y pedidos</title>
+  <link rel="icon" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="comercios.css">
+  <link rel="stylesheet" href="flujos.css">
+  <script defer src="shared.js"></script>
+  <script defer src="pedidos.js"></script>
+</head>
+<body class="miga">
+  <a class="skip-demo" href="#contenido">Ir al contenido</a>
+  <div class="preview-strip"><a href="../inicio.html#en-accion"><strong>KR</strong> Volver a los ejemplos</a><span>Prueba de Café Miga · Productos y cobros de muestra</span></div>
+  <main class="demo-wrap flow-page" id="contenido">
+    <header class="flow-header">
+      <p class="shop-label">CAFÉ MIGA / MENÚ PARA RECOGER</p>
+      <h1>Del menú a tu mostrador</h1>
+      <p>Arma un pedido como cliente. Después abre la vista del negocio para revisar el pedido, marcarlo listo y preparar un recibo.</p>
+      <nav class="flow-switch" aria-label="Vistas de pedidos">
+        <a class="secondary" data-view="cliente" href="#cliente">Pedir como cliente</a>
+        <a class="secondary" data-view="negocio" href="#negocio">Ver pedidos del negocio <span id="order-count"></span></a>
+      </nav>
+    </header>
+    <section id="cliente" class="flow-board" aria-labelledby="client-title">
+      <div><h2 id="client-title">¿Qué se te antoja?</h2><div class="menu-order" id="product-list"></div><p class="hint"><a class="underlined" href="sucursales.html#sucursales">Consultar horarios de Café Miga</a></p></div>
+      <form class="flow-panel" id="order-form">
+        <h2>Tu pedido</h2><div id="basket" aria-live="polite"></div>
+        <label class="field">Recoger en<select name="branch"><option>Miga Centro</option><option>Miga Norte</option><option>Miga Sur</option></select></label>
+        <label class="field">Cómo pagar<select name="payment"><option value="card">Tarjeta en el sitio · simulación</option><option value="transfer">Transferencia al negocio</option><option value="pickup">Pagar al recoger</option></select></label>
+        <p class="hint" id="payment-help"></p>
+        <button class="primary" type="submit" id="confirm-order" disabled>Confirmar pedido de prueba</button>
+        <a class="secondary" id="whatsapp-order" target="_blank" rel="noopener noreferrer" hidden>Preparar pedido para WhatsApp</a>
+        <p class="hint">El pedido de prueba aparece en la vista del negocio de este navegador. En WhatsApp eliges a quién compartir el borrador.</p>
+      </form>
+      <div class="inline-result flow-result" id="order-result" role="status" hidden></div>
+    </section>
+    <section id="negocio" aria-labelledby="business-title" hidden>
+      <div class="board-heading"><div><h2 id="business-title">Pedidos del negocio</h2><p>Revisa lo que pidió el cliente y en qué etapa va. Los cambios se guardan en tu navegador.</p></div>
+      <label class="field">Ver pedidos<select id="order-filter"><option value="">Todos</option><option value="received">Recibidos</option><option value="preparing">En preparación</option><option value="ready">Listos</option><option value="delivered">Entregados</option></select></label></div>
+      <p id="board-status" role="status" class="hint"></p><div id="order-list" class="order-list"></div>
+    </section>
+    <noscript><p>Activa JavaScript para preparar y revisar pedidos de prueba.</p></noscript>
+  </main>
+  <footer class="example-footer"><p>Demostración de KR. Los pedidos se guardan en el navegador y no se realizan cobros.</p><a href="../inicio.html#cotizar">Quiero un menú con pedidos</a></footer>
+  <dialog id="app-dialog" aria-label="Recibo de muestra"></dialog><div id="toast" class="toast" role="status"></div>
+</body>
+</html>
